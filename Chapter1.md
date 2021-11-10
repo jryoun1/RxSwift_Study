@@ -1,7 +1,5 @@
 # Chapter1 Hello, RxSwift
 
-<br>
-
 ## RxSwift란 무엇일까?
 
 ```Swift
@@ -44,8 +42,6 @@ Apple은 Cocoa와 UIKit에서 비동기 프로그래밍을 위해서 여러 APIs
 - Closures
 - Combine
 
-<br>
-
 ### 동기 코드
 
 ```swift
@@ -67,8 +63,6 @@ print(array)
 3
 [4,5,6]
 ```
-
-<br>
 
 ### 비동기 코드
 
@@ -94,7 +88,9 @@ var currentIndex = 0
 
 RxSwift는 아래와 같은 문제들을 해결하려한다. (1,2,3)
 
-그리고 RxSwift는 아래와 같은 방식으로 문제를 해결하려고 한다. (4,5)
+그리고 RxSwift는 아래와 같은 방식으로 문제를 해결하려고 한다. (4,5) 
+
+<br>
 
 ### 1️⃣ State(shared mutable state)
 
@@ -103,8 +99,6 @@ RxSwift는 아래와 같은 문제들을 해결하려한다. (1,2,3)
 `laptop의 상태` 는 메모리에 있는 데이터, 디스크에 저장된 데이터, 사용자 입력에 반응하는 모든 artifact, 클라우드 서비스에서 데이터를 가져온 후 남는 모든 추척 등의 합계라고 할 수 있다. 
 
 특히 **여러 비동기 구성 요소 간에 공유되는 경우 앱의 상태를 관리하는 것**이 바로 RxSwift가 해결할려는 문제 중 하나이다.
-
-<br>
 
 ### 2️⃣ Imperative programming
 
@@ -120,10 +114,6 @@ override func viewDidAppear(_ animated: Bool) {
 }
 ```
 
-
-
-<br>
-
 ### 3️⃣ Side effects
 
 앞선 두 문제에 대해서 부작용이 발생할 수 있다.
@@ -136,8 +126,6 @@ override func viewDidAppear(_ animated: Bool) {
 
 이에 RxSwift는 4,5번에서 어떠한 방식으로 이를 해결하는지 나타낼 것이다. 
 
-<br>
-
 ### 4️⃣ Declarative code
 
 `명령형 프로그래밍` 에서는 원한다면 상태를 변경할 수 있다. 반면에 `함수형 프로그래밍` 에서는 부작용을 일으키는 코드를 최소화 하는 것을 목표로한다. 둘 중에 하나만 완벽하게 택하는 것이 아니므로 둘 사이 중간쯤에 있는 것이고, 이때 **RxSwift는 명령형 코드와 함수형 코드의 좋은 측면을 결합한 것이다.**  
@@ -145,8 +133,6 @@ override func viewDidAppear(_ animated: Bool) {
 `명령형 코드` 를 사용하여 **동작을 정의**할 수 있다. 그리고 RxSwift는 **관련된 이벤트가 있을 때마다 이러한 동작을 실행하고 사용할 수 있는 불변의 고립된 data를 제공**해준다. 
 
 굳이 RxSwift를 사용하지 않고 비동기 코드로 작업할 수 있지만, RxSwift를 사용하여 이러한 과정을 단순 루프와 같이 가정하고 사용할 수 있다. 불변 데이터로 작업하고 있고, 코드를 순차적이고 결정론적인 방법으로 실행이 가능해지는 것이다. 
-
-<br>
 
 ### 5️⃣ Reactive systems
 
@@ -159,13 +145,11 @@ override func viewDidAppear(_ animated: Bool) {
 
 RxSwift가 어떠한 문제를 해결하려는지, 그리고 이러한 문제를 어떻게 접근하는지 대략적으로 알아 볼 수 있었으니 이제 Rx의 구성요소들과 그것들이 어떻게 함께 작용하는지 알아보자.
 
-
+<br>
 
 ## Foundation of RxSwift
 
 Rx 코드는 크게 **observables, operators, schedulars**로 구성되어 있다.
-
-<br>
 
 ### Observables
 
@@ -261,7 +245,7 @@ UIDevice.rx.orientation
 
 모든 UIDevice.rx.orientation은 `.landschape` 혹은 `.portrait` 값을 재생하게되는데, RxSwift에서 방출되는 데이터를 filter와 map을 사용할 수 있다.
 
- <img src="/Users/yeon/Library/Application Support/typora-user-images/image-20211110165558816.png" alt="image-20211110165558816" style="zoom:33%;" />
+<img src="https://user-images.githubusercontent.com/45090197/141087907-f4387475-da5c-434a-9fc7-1086188da704.png" width="350" height="450"/>
 
 먼저 `filter` 는 `.landscape` 가 아닌 값들만 통과를 시켜준다. 만약 기기가 `.landscape` 모드인 경우에는 subscription code는 동작하지 않게 된다. `.portrait` 인 경우에는 `map` 연산자에 의해서 String으로 값을 방출해준다. 그리고 마지막 subscribe가 `nextEvent` 의 결과로서 String 값을 받아서 이를 화면에 표시해주게 된다.   
 
@@ -279,7 +263,7 @@ RxSwift는 **사전에 정의된 스케줄러와 함께 제공이 되는데, 99%
 
 RxSwift 덕분에 다양한 스케줄러에서 동일한 구독의 여러 작업을 예약하여 용도에 맞는 최상의 성능을 달성할 수 있다. RxSwift는 subscriptions(아래 그림에서 왼쪽)과 schedulers(아래 그림에서 오른쪽) 사이에서 dispatcher처럼 행동하며, 작업들을 올바른 context로 보내고 서로의 출력이 원할하게 작동하도록 할 것이다. 
 
-<img src="/Users/yeon/Library/Application Support/typora-user-images/image-20211110173119726.png" alt="image-20211110173119726" style="zoom:50%;" />
+<img src="https://user-images.githubusercontent.com/45090197/141087938-cf0d0b33-364e-47e3-a318-078e98a186b5.png" width="700" height="400" />
 
 
 
@@ -289,7 +273,7 @@ RxSwift는 App에서 아키텍처를 어떠한 식으로도 바꾸지 않는다.
 
 MVC, MVP, MVVM 어떠한 패턴을 사용해도 상관없지만 MVVM과 특히 잘 어울린다. 왜냐하면 ViewModel을 사용하면 view controller의 코드에서 UIKit 컨트롤에 직접 바인딩할 수 있는 Observable properties를 노출할 수 있기 때문이다. 
 
-<img src="/Users/yeon/Library/Application Support/typora-user-images/image-20211110175323126.png" alt="image-20211110175323126" style="zoom:50%;" />
+<img src="https://user-images.githubusercontent.com/45090197/141088493-ba98e2b0-60cd-4333-ad66-c4b2ae252840.png" width="700" height="400" />
 
 
 
